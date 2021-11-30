@@ -41,6 +41,7 @@ class SKKM:
     def __init__(self):
         self.fire_service_units = set()
         self.nearest_unit = None
+        self.list_of_occasions = []
 
     def attach(self, unit):
         self.fire_service_units.add(unit)
@@ -71,6 +72,10 @@ class SKKM:
         #             if car is FreeState:
         #                 car.change_state(OccupiedState)
         #                 vehicles_needed += 1
+    # def check_time(self):
+    #     for unit in self.fire_service_units:
+    #         for vehicle in unit.vehilces:
+    #             if vehicle.
 
 
 class FireServiceUnit(Unit):
@@ -78,7 +83,6 @@ class FireServiceUnit(Unit):
         self.fire_station_id = fire_station_id
         self.coordinates = coordinates
         self.vehicles = list_of_vehicles
-        self.list_of_occasions = None
 
     # def show_coordinates(self):
     #     print("___________________________\n"
@@ -88,6 +92,8 @@ class FireServiceUnit(Unit):
 
     def make_alert(self):
         print(f"{self.fire_station_id} została poinformowana o nowym przypadku.")
+
+
 
 
 
