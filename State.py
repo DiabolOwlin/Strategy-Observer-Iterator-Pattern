@@ -44,4 +44,3 @@ class FireFighterVehicle:
             print('Vehicle {}.'.format(func()))
         except AttributeError:
             print('Vehicle can`t do it.')
-

@@ -1,41 +1,13 @@
 import math
-from abc import ABC, abstractmethod
-from State import FreeState, OccupiedState
-from Iterator import *
 from Strategy import *
+from Iterator import *
 
-
-#
-#
-# class CameraSystem:
-#     def __init__(self):
-#         self.__observers = set()
-#
-#     def attach(self, observer):
-#         self.__observers.add(observer)
-#
-#     def detach(self, observer):
-#         self.__observers.remove(observer)
-#
-#     def notify(self):
-#         for observer in self.__observers:
-#             observer.make_photo()
-#
-#
 
 class Unit(ABC):
     @abstractmethod
     def make_alert(self):
         pass
 
-
-#
-# class Camera(AbstractObserver):
-#     def __init__(self, name):
-#         self.name = name
-#
-#     def make_photo(self):
-#         print('{} makes a photo'.format(self.name))
 
 class SKKM:
     def __init__(self):
@@ -63,19 +35,6 @@ class SKKM:
         for unit in self.fire_service_units:
             if unit.fire_station_id == self.nearest_unit:
                 unit.make_alert()
-        # for unit in self.__fire_service_units:
-        #     if unit.fire_station_id == self.nearest_unit:
-        #         vehicles_needed = 0
-        #         it = Iterator(unit.vehicles)
-        #         if vehicles_needed < 3:
-        #             car = next(it)
-        #             if car is FreeState:
-        #                 car.change_state(OccupiedState)
-        #                 vehicles_needed += 1
-    # def check_time(self):
-    #     for unit in self.fire_service_units:
-    #         for vehicle in unit.vehilces:
-    #             if vehicle.
 
 
 class FireServiceUnit(Unit):
@@ -84,16 +43,8 @@ class FireServiceUnit(Unit):
         self.coordinates = coordinates
         self.vehicles = list_of_vehicles
 
-    # def show_coordinates(self):
-    #     print("___________________________\n"
-    #           "Coordinates of the station {}:\nX: {}, Y: {}"
-    #           "\n___________________________"
-    #           .format(self.fire_station_id, self.coordinates[0], self.coordinates[1]))
+    def __iter__(self):
+        return Iterator(self.vehicles)
 
     def make_alert(self):
-        print(f"{self.fire_station_id} została poinformowana o nowym przypadku.")
-
-
-
-
-
+        print(f"{self.fire_station_id} was alerted of new accident.")

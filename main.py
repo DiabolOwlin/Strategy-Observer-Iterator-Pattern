@@ -3,9 +3,12 @@
 # from State import *
 # from Strategy import *
 # import time
+import sys
 
 from Observer import *
 from threading import Timer
+
+running = True
 
 
 # list_of_occasions = []
@@ -43,51 +46,57 @@ from threading import Timer
 #               "\n___________________________"
 #               .format(self.fire_station_id, self.coordinates[0], self.coordinates[1]))
 
-def show_stats(fsu):
-    for unit in fsu.fire_service_units:
-        print(unit.fire_station_id)
-        for element in unit.vehicles:
-            print(element._state)
-        print('---------------------------------------------')
+# def show_stats(fsu):
+#     for unit in fsu.fire_service_units:
+#         print(unit.fire_station_id)
+#         for element in unit.vehicles:
+#             print(element._state)
+#         print('---------------------------------------------')
 
 
 def generate_occasion():
-    problem_id = random.randint(1, 1001)
-    if random.randint(1, 11) < 4:
+    global running
+    try:
+        problem_id = random.randint(1, 1001)
+        if random.randint(1, 11) < 4:
 
-        tmp = Problem(random.uniform(50.15456401334173, 49.95855025648944),
-                      random.uniform(19.68829248274239, 20.0247027586890), problem_id)
-        tmp.set_strategy(FireProblem())
+            tmp = Problem(random.uniform(50.15456401334173, 49.95855025648944),
+                          random.uniform(19.68829248274239, 20.0247027586890), problem_id)
+            tmp.set_strategy(FireProblem())
 
-        number = 3
-    else:
+            number = 3
+        else:
 
-        tmp = Problem(random.uniform(50.15456401334173, 49.95855025648944),
-                      random.uniform(19.68829248274239, 20.0247027586890), problem_id)
-        tmp.set_strategy(LocalThreadProblem())
+            tmp = Problem(random.uniform(50.15456401334173, 49.95855025648944),
+                          random.uniform(19.68829248274239, 20.0247027586890), problem_id)
+            tmp.set_strategy(LocalThreadProblem())
 
-        number = 2
+            number = 2
 
-    National_Fire_Service.list_of_occasions.append(tmp)
-    National_Fire_Service.sort_from_nearest_to_farthest(tmp.x_coord, tmp.y_coord)
-    National_Fire_Service.notify()
-    diff = tmp.solve(National_Fire_Service.nearest_unit, number, problem_id, tmp.attached_vehicles_id)
-    if diff != 0:
-        dismiss_list = []
-        while diff != 0:
-            n = diff
-            dismiss_list.append(National_Fire_Service.nearest_unit)
+        National_Fire_Service.list_of_occasions.append(tmp)
+        National_Fire_Service.sort_from_nearest_to_farthest(tmp.x_coord, tmp.y_coord)
+        National_Fire_Service.notify()
+        diff = tmp.solve(National_Fire_Service.nearest_unit, number, problem_id, tmp.attached_vehicles_id)
+        if diff != 0:
+            dismiss_list = []
+            while diff != 0:
+                n = diff
+                dismiss_list.append(National_Fire_Service.nearest_unit)
 
-            National_Fire_Service.detach(National_Fire_Service.nearest_unit)
+                National_Fire_Service.detach(National_Fire_Service.nearest_unit)
 
-            National_Fire_Service.sort_from_nearest_to_farthest(tmp.x_coord, tmp.y_coord)
+                National_Fire_Service.sort_from_nearest_to_farthest(tmp.x_coord, tmp.y_coord)
 
-            National_Fire_Service.notify()
+                National_Fire_Service.notify()
 
-            diff = tmp.solve(National_Fire_Service.nearest_unit, n, problem_id, tmp.attached_vehicles_id)
-        for element in dismiss_list:
-            National_Fire_Service.attach(element)
-
+                diff = tmp.solve(National_Fire_Service.nearest_unit, n, problem_id, tmp.attached_vehicles_id)
+            for el in dismiss_list:
+                National_Fire_Service.attach(el)
+    except IndexError:
+        print(
+            "\n\n\n==========We cannot handle so many accidents! We need HELP ASAP!!!!==========\n\n\n")
+        running = False
+        sys.exit(1)
 
     # National_Fire_Service.check_time()
     # show_stats(National_Fire_Service)
@@ -97,8 +106,12 @@ def generate_occasion():
     #     print("Alert is fake!")
     # else:
     #     print("Alert is not fake!")
+    #     print("Alert is not fake!")
+    #     print("Alert is not fake!")
+    #     print("Alert is not fake!")
+    #     print("Alert is not fake!")
 
-    random_time_generation = random.randint(3, 12)
+    random_time_generation = random.randint(3, 16)
     Timer(random_time_generation, generate_occasion).start()
 
 
@@ -141,7 +154,7 @@ if __name__ == '__main__':
 
     # National_Fire_Service.message_to_all()
     generate_occasion()
-    while True:
+    while running:
         # print("here")
         for element in National_Fire_Service.list_of_occasions:
             # print(element.attached_vehicles_id)
@@ -151,8 +164,7 @@ if __name__ == '__main__':
                 National_Fire_Service.list_of_occasions.remove(element)
             # Timer(0.05, element.check_time(element.attached_vehicles_id)).start()
         # print("Length of list_of_occasions:", len(National_Fire_Service.list_of_occasions))
-
-
+    sys.exit(1)
     # JRG-1 : 50.060018243005125, 19.943072222897737
     # JRG-2 : 50.03344864229099, 19.935874969834686
     # JRG-3 : 50.075734877638816, 19.887319816655477
