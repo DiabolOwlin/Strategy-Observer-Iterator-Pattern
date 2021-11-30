@@ -65,6 +65,9 @@ def generate_occasion():
             tmp.set_strategy(FireProblem())
 
             number = 3
+            print('---------------------------------------------------------')
+            print(f'Fire (problem #{problem_id}) was emerged on the horizon!')
+
         else:
 
             tmp = Problem(random.uniform(50.15456401334173, 49.95855025648944),
@@ -72,10 +75,14 @@ def generate_occasion():
             tmp.set_strategy(LocalThreadProblem())
 
             number = 2
+            print('----------------------------------------------------------')
+            print(f'Accident (problem #{problem_id}) was emerged on the horizon!')
 
+        print('----------------------------------------------------------\n')
         National_Fire_Service.list_of_occasions.append(tmp)
         National_Fire_Service.sort_from_nearest_to_farthest(tmp.x_coord, tmp.y_coord)
         National_Fire_Service.notify()
+
         diff = tmp.solve(National_Fire_Service.nearest_unit, number, problem_id, tmp.attached_vehicles_id)
         if diff != 0:
             dismiss_list = []
@@ -84,9 +91,7 @@ def generate_occasion():
                 dismiss_list.append(National_Fire_Service.nearest_unit)
 
                 National_Fire_Service.detach(National_Fire_Service.nearest_unit)
-
                 National_Fire_Service.sort_from_nearest_to_farthest(tmp.x_coord, tmp.y_coord)
-
                 National_Fire_Service.notify()
 
                 diff = tmp.solve(National_Fire_Service.nearest_unit, n, problem_id, tmp.attached_vehicles_id)
@@ -101,15 +106,6 @@ def generate_occasion():
     # National_Fire_Service.check_time()
     # show_stats(National_Fire_Service)
     # print("========================================================================================")
-
-    # if random.randint(1, 21) == 1:
-    #     print("Alert is fake!")
-    # else:
-    #     print("Alert is not fake!")
-    #     print("Alert is not fake!")
-    #     print("Alert is not fake!")
-    #     print("Alert is not fake!")
-    #     print("Alert is not fake!")
 
     random_time_generation = random.randint(3, 16)
     Timer(random_time_generation, generate_occasion).start()
@@ -152,18 +148,14 @@ if __name__ == '__main__':
     National_Fire_Service.attach(FSU9)
     National_Fire_Service.attach(FSU10)
 
-    # National_Fire_Service.message_to_all()
     generate_occasion()
     while running:
-        # print("here")
-        for element in National_Fire_Service.list_of_occasions:
-            # print(element.attached_vehicles_id)
 
+        for element in National_Fire_Service.list_of_occasions:
             finish = element.check_time()
             if finish:
                 National_Fire_Service.list_of_occasions.remove(element)
-            # Timer(0.05, element.check_time(element.attached_vehicles_id)).start()
-        # print("Length of list_of_occasions:", len(National_Fire_Service.list_of_occasions))
+
     sys.exit(1)
     # JRG-1 : 50.060018243005125, 19.943072222897737
     # JRG-2 : 50.03344864229099, 19.935874969834686

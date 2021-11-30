@@ -25,8 +25,8 @@ class FireProblem(BaseProblem):
 
         if counter != 0:
 
-            print(f"\nNew! {counter} vehicles from {fire_station.fire_station_id}"
-                  f" are on the way on the site with problem #{problem_id}.\n")
+            print(f"------>{counter} vehicles from {fire_station.fire_station_id}"
+                  f" are on the way on the site with problem #{problem_id}.")
 
         diff = number_of_vehicles_needed - counter
         return diff
@@ -47,8 +47,8 @@ class LocalThreadProblem(BaseProblem):
 
         if counter != 0:
 
-            print(f"\nNew! {counter} vehicles from {fire_station.fire_station_id}"
-                  f" are on the way on the site with problem #{problem_id}.\n")
+            print(f"------>{counter} vehicles from {fire_station.fire_station_id}"
+                  f" are on the way on the site with problem #{problem_id}.")
 
         diff = number_of_vehicles_needed - counter
 
